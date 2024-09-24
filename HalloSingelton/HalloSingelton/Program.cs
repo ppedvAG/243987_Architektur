@@ -8,6 +8,3 @@ Parallel.For(0, 10, i =>
 {
     Logger.Instance.LogInfo($"Hello Logger {i}");
 });
-
-
-
