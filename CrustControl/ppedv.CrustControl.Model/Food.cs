@@ -8,7 +8,7 @@ public abstract class Food : Entity
     public decimal Price { get; set; }
 
     // Navigation Properties
-    public ICollection<OrderItem> OrderItems { get; set; } = new HashSet<OrderItem>();
+    public virtual ICollection<OrderItem> OrderItems { get; set; } = new HashSet<OrderItem>();
 }
 
 

@@ -7,9 +7,9 @@ public class Order : Entity
 {
     public DateTime Date { get; set; }
 
-    public Customer? Delivery { get; set; }
-    public required Customer Billing { get; set; }
-    public ICollection<OrderItem> Items { get; set; } = new HashSet<OrderItem>();
+    public virtual Customer? Delivery { get; set; }
+    public virtual required Customer Billing { get; set; }
+    public virtual ICollection<OrderItem> Items { get; set; } = new HashSet<OrderItem>();
 }
 
 

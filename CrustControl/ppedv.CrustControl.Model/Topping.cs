@@ -10,7 +10,7 @@ public class Topping : Entity
     public bool Vegetarian { get; set; }
 
     // Navigation Properties
-    public ICollection<Pizza> Pizzas { get; set; } = new HashSet<Pizza>();
+    public virtual ICollection<Pizza> Pizzas { get; set; } = new HashSet<Pizza>();
 }
 
 

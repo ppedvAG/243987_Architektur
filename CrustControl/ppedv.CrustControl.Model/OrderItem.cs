@@ -2,10 +2,10 @@
 
 public class OrderItem : Entity
 {
-    public required Order Order { get; set; }
+    public virtual required Order Order { get; set; }
     public int Amount { get; set; }
 
-    public required Food FoodItem { get; set; }
+    public virtual required Food FoodItem { get; set; }
 }
 
 
