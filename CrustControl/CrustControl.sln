@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ppedv.CrustControl.Data.Db"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ppedv.CrustControl.Data.Db.Tests", "ppedv.CrustControl.Data.Db.Tests\ppedv.CrustControl.Data.Db.Tests.csproj", "{DC4E3FE3-A8F7-48A6-A0DD-56963524E70A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ppedv.CrustControl.Logic", "ppedv.CrustControl.Logic\ppedv.CrustControl.Logic.csproj", "{A1AFE97D-AABF-498E-ACF5-A89CEA5DFBF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{DC4E3FE3-A8F7-48A6-A0DD-56963524E70A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC4E3FE3-A8F7-48A6-A0DD-56963524E70A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC4E3FE3-A8F7-48A6-A0DD-56963524E70A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1AFE97D-AABF-498E-ACF5-A89CEA5DFBF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1AFE97D-AABF-498E-ACF5-A89CEA5DFBF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1AFE97D-AABF-498E-ACF5-A89CEA5DFBF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1AFE97D-AABF-498E-ACF5-A89CEA5DFBF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
