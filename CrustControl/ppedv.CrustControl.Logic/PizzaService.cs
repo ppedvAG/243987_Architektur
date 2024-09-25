@@ -1,9 +1,17 @@
-﻿using ppedv.CrustControl.Model;
+﻿using ppedv.CrustControl.Model.Contracts;
+using ppedv.CrustControl.Model.DomainModel;
 
 namespace ppedv.CrustControl.Logic
 {
     public class PizzaService
     {
+        private readonly IRepository repository;
+
+        public PizzaService(IRepository repository)
+        {
+            this.repository = repository;
+        }
+
 
         public Pizza GetMostOrderdPizzaOfMonth(int month)
         {

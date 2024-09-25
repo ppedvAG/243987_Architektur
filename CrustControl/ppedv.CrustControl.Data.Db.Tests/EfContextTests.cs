@@ -2,7 +2,7 @@
 using AutoFixture.Kernel;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using ppedv.CrustControl.Model;
+using ppedv.CrustControl.Model.DomainModel;
 using System.Reflection;
 
 namespace ppedv.CrustControl.Data.Db.Tests
@@ -10,8 +10,6 @@ namespace ppedv.CrustControl.Data.Db.Tests
     public class EfContextTests
     {
         string conString = "Server=(localdb)\\mssqllocaldb;Database=CrustControl_TestDb;Trusted_Connection=true";
-
-
 
         [Fact]
         public void Can_create_db()

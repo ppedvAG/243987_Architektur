@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ppedv.CrustControl.Model;
+using ppedv.CrustControl.Model.DomainModel;
 
 namespace ppedv.CrustControl.Data.Db
 {

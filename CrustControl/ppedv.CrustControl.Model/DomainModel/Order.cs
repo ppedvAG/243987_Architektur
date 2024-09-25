@@ -1,4 +1,4 @@
-﻿namespace ppedv.CrustControl.Model;
+﻿namespace ppedv.CrustControl.Model.DomainModel;
 
 using System;
 using System.Collections.Generic;
