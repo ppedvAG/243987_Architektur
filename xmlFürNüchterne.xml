@@ -1,0 +1,14 @@
+<Baenke>
+
+    <Bank xmlns="http://ppedv.de/ns/2024/Archi/Sitzbank">
+        <Sitze>3</Sitze>
+        <IstFrischGestrichen>nein</IstFrischGestrichen>
+    </Bank>
+
+
+    <Bank xmlns="http://ppedv.de/ns/2024/Archi/Geldbank">
+        <BLZ>123456</BLZ>
+        <Name>Geld und Zins</Name>
+    </Bank>
+
+</Baenke>
