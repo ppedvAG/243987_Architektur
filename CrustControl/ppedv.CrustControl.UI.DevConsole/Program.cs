@@ -9,8 +9,6 @@ Console.WriteLine("*** Crust Control v0.1 ***");
 
 string conString = "Server=(localdb)\\mssqllocaldb;Database=CrustControl_TestDb;Trusted_Connection=true";
 
-
-
 //manual DI
 //IRepository repo = new EfContextRepositoryAdapter(conString);
 
@@ -30,7 +28,7 @@ var repo = container.Resolve<IRepository>();
 //PizzaService ps = new PizzaService(repo);
 PizzaService ps = container.Resolve<PizzaService>();
 
-foreach (var item in repo.GetAll<Pizza>())
+foreach (var item in repo.Query<Pizza>().Where(x => x.Price < 1000 && x.Toppings.Count < 100).OrderBy(x => x.Name.Length))
 {
     Console.WriteLine($"{item.Name} {item.Price}");
 }

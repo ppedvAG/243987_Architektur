@@ -21,15 +21,22 @@ namespace ppedv.CrustControl.Data.Db
             context.Set<T>().Remove(item);
         }
 
-        public IEnumerable<T> GetAll<T>() where T : Entity
+        //public IEnumerable<T> GetAll<T>() where T : Entity
+        //{
+        //    return context.Set<T>().ToList();
+        //}
+        public IQueryable<T> Query<T>() where T : Entity
         {
-            return context.Set<T>().ToList();
+            return context.Set<T>();
         }
+
 
         public T? GetById<T>(int id) where T : Entity
         {
             return context.Set<T>().Find(id);
         }
+
+ 
 
         public int SaveAll()
         {

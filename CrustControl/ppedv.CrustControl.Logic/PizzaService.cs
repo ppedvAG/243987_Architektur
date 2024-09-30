@@ -13,12 +13,20 @@ namespace ppedv.CrustControl.Logic
         }
 
 
-        public Pizza GetMostOrderdPizzaOfMonth(int month)
+        public Pizza? GetMostOrderdPizzaOfMonth(int month)
         {
             ArgumentOutOfRangeException.ThrowIfGreaterThan(month, 12, nameof(month));
             ArgumentOutOfRangeException.ThrowIfLessThan(month, 1, nameof(month));
 
-            throw new NotImplementedException();
+            var pizzas = repository.Query<Pizza>()
+                                   .Where(p => p.OrderItems.Any(oi => oi.Order.Date.Month == month));
+
+            var mostOrderedPizza = pizzas.GroupBy(p => p)
+                                         .OrderByDescending(g => g.Count())
+                                         .Select(g => g.Key)
+                                         .FirstOrDefault();
+
+            return mostOrderedPizza;
         }
 
         public bool IsVegan(Pizza pizza)
