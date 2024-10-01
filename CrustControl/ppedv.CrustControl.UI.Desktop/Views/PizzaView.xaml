@@ -7,14 +7,14 @@
              xmlns:viewmodels="clr-namespace:ppedv.CrustControl.UI.Desktop.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.DataContext>
+    <!--<UserControl.DataContext>
         <viewmodels:PizzaViewModel/>
-    </UserControl.DataContext>
+    </UserControl.DataContext>-->
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <Button>Laden</Button>
             <Button Command="{Binding SaveCommand}">Speichern</Button>
-            <Button >Neu</Button>
+            <Button Command="{Binding NewPizzaCommand}">Neu</Button>
             <Button>Löschen</Button>
         </StackPanel>
         <Grid>

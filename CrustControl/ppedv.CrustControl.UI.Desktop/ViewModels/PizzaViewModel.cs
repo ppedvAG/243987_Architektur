@@ -1,4 +1,7 @@
-﻿using ppedv.CrustControl.Model.Contracts;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using ppedv.CrustControl.Logic;
+using ppedv.CrustControl.Model.Contracts;
 using ppedv.CrustControl.Model.DomainModel;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -7,7 +10,7 @@ using System.Windows.Input;
 
 namespace ppedv.CrustControl.UI.Desktop.ViewModels
 {
-    class PizzaViewModel : INotifyPropertyChanged
+    class PizzaViewModel : ObservableObject
     {
         public ObservableCollection<Pizza> PizzaList { get; set; }
 
@@ -19,8 +22,10 @@ namespace ppedv.CrustControl.UI.Desktop.ViewModels
             set
             {
                 _selectedPizza = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedPizza)));
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PizzaSpecialPrice)));
+                OnPropertyChanged(nameof(SelectedPizza));
+                OnPropertyChanged(nameof(PizzaSpecialPrice));
+                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedPizza)));
+                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PizzaSpecialPrice)));
             }
         }
 
@@ -37,7 +42,10 @@ namespace ppedv.CrustControl.UI.Desktop.ViewModels
 
         public ICommand SaveCommand { get; set; }
 
+        public ICommand NewPizzaCommand { get; set; }
+
         private readonly IRepository repo;
+
 
         public PizzaViewModel(IRepository repo)
         {
@@ -45,15 +53,18 @@ namespace ppedv.CrustControl.UI.Desktop.ViewModels
             SaveCommand = new SaveCommand(repo);
 
             PizzaList = new ObservableCollection<Pizza>(repo.Query<Pizza>());
+
+            NewPizzaCommand = new RelayCommand(AddNewPizza);
         }
 
-        //pfusch bis DI Framework da ist
-        static string conString = "Server=(localdb)\\mssqllocaldb;Database=CrustControl_TestDb;Trusted_Connection=true";
+        private void AddNewPizza()
+        {
+            var np = new Pizza() { Name = "Neue Pizza" };
+            repo.Add(np);
+            PizzaList.Add(np);
+            SelectedPizza = np;
+        }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        public PizzaViewModel() : this(new Data.Db.EfContextRepositoryAdapter(conString))
-        { }
     }
 
     class SaveCommand : ICommand
