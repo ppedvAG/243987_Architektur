@@ -13,7 +13,6 @@ namespace ppedv.CrustControl.Logic
             this.repository = repository;
         }
 
-
         public Pizza? GetMostOrderdPizzaOfMonth(int month)
         {
             ArgumentOutOfRangeException.ThrowIfGreaterThan(month, 12, nameof(month));

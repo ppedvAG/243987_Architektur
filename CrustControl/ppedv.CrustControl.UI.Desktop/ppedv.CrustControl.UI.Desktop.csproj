@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AdonisUI" Version="1.17.1" />
+    <PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ppedv.CrustControl.Data.Db\ppedv.CrustControl.Data.Db.csproj" />
     <ProjectReference Include="..\ppedv.CrustControl.Logic\ppedv.CrustControl.Logic.csproj" />
     <ProjectReference Include="..\ppedv.CrustControl.Model\ppedv.CrustControl.Model.csproj" />
