@@ -1,6 +1,7 @@
 using ppedv.CrustControl.Data.Db;
 using ppedv.CrustControl.Logic;
-using ppedv.CrustControl.Model.Contracts;
+using ppedv.CrustControl.Model.Contracts.Data;
+using ppedv.CrustControl.Model.Contracts.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +10,9 @@ builder.Services.AddControllersWithViews();
 
 string conString = "Server=(localdb)\\mssqllocaldb;Database=CrustControl_TestDb;Trusted_Connection=true";
 
-builder.Services.AddSingleton<PizzaService>();
-builder.Services.AddTransient<IRepository>(x => new EfContextRepositoryAdapter(conString));
+builder.Services.AddSingleton<IPizzaService, PizzaService>();
+builder.Services.AddSingleton<IOrderService, OrderService>();
+builder.Services.AddTransient<IUnitOfWork>(x => new EfContextUnitOfWorkAdapter(conString));
 
 var app = builder.Build();
 

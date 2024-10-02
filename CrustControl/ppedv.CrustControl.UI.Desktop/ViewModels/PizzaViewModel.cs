@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ppedv.CrustControl.Logic;
-using ppedv.CrustControl.Model.Contracts;
+using ppedv.CrustControl.Model.Contracts.Data;
 using ppedv.CrustControl.Model.DomainModel;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -44,15 +44,15 @@ namespace ppedv.CrustControl.UI.Desktop.ViewModels
 
         public ICommand NewPizzaCommand { get; set; }
 
-        private readonly IRepository repo;
+        private readonly IUnitOfWork uow;
 
 
-        public PizzaViewModel(IRepository repo)
+        public PizzaViewModel(IUnitOfWork repo)
         {
-            this.repo = repo;
+            this.uow = repo;
             SaveCommand = new SaveCommand(repo);
 
-            PizzaList = new ObservableCollection<Pizza>(repo.Query<Pizza>());
+            PizzaList = new ObservableCollection<Pizza>(repo.PizzaRepo.Query());
 
             NewPizzaCommand = new RelayCommand(AddNewPizza);
         }
@@ -60,7 +60,7 @@ namespace ppedv.CrustControl.UI.Desktop.ViewModels
         private void AddNewPizza()
         {
             var np = new Pizza() { Name = "Neue Pizza" };
-            repo.Add(np);
+            uow.PizzaRepo.Add(np);
             PizzaList.Add(np);
             SelectedPizza = np;
         }
@@ -69,7 +69,7 @@ namespace ppedv.CrustControl.UI.Desktop.ViewModels
 
     class SaveCommand : ICommand
     {
-        private readonly IRepository repo;
+        private readonly IUnitOfWork repo;
 
         public event EventHandler? CanExecuteChanged;
 
@@ -83,7 +83,7 @@ namespace ppedv.CrustControl.UI.Desktop.ViewModels
             repo.SaveAll();
         }
 
-        public SaveCommand(IRepository repo)
+        public SaveCommand(IUnitOfWork repo)
         {
             this.repo = repo;
         }

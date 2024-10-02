@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using ppedv.CrustControl.Data.Db;
 using ppedv.CrustControl.Logic;
-using ppedv.CrustControl.Model.Contracts;
+using ppedv.CrustControl.Model.Contracts.Data;
 using ppedv.CrustControl.Model.DomainModel;
 using System.Reflection;
 
@@ -21,14 +21,15 @@ string conString = "Server=(localdb)\\mssqllocaldb;Database=CrustControl_TestDb;
 //DI per AutoFac
 var builder = new ContainerBuilder();
 builder.RegisterType<PizzaService>();
-builder.Register(x => new EfContextRepositoryAdapter(conString)).As<IRepository>();
+builder.RegisterType<OrderService>();
+builder.Register(x => new EfContextUnitOfWorkAdapter(conString)).As<IUnitOfWork>();
 var container = builder.Build();
-
-var repo = container.Resolve<IRepository>();
+ 
+var uow = container.Resolve<IUnitOfWork>();
 //PizzaService ps = new PizzaService(repo);
 PizzaService ps = container.Resolve<PizzaService>();
 
-foreach (var item in repo.Query<Pizza>().Where(x => x.Price < 1000 && x.Toppings.Count < 100).OrderBy(x => x.Name.Length))
+foreach (var item in uow.PizzaRepo.Query().Where(x => x.Price < 1000 && x.Toppings.Count < 100).OrderBy(x => x.Name.Length))
 {
     Console.WriteLine($"{item.Name} {item.Price}");
 }

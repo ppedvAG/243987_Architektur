@@ -1,6 +1,6 @@
 using ppedv.CrustControl.Data.Db;
 using ppedv.CrustControl.Logic;
-using ppedv.CrustControl.Model.Contracts;
+using ppedv.CrustControl.Model.Contracts.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

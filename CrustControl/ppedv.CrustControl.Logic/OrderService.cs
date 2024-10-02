@@ -1,17 +1,18 @@
-﻿using ppedv.CrustControl.Model.Contracts;
+﻿using ppedv.CrustControl.Model.Contracts.Data;
+using ppedv.CrustControl.Model.Contracts.Services;
 using ppedv.CrustControl.Model.DomainModel;
 
 namespace ppedv.CrustControl.Logic
 {
     public class OrderService : IOrderService
     {
-        private readonly IRepository repository;
-        private readonly IPizzaService pizzaService;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IPizzaService _pizzaService;
 
-        public OrderService(IRepository repository, IPizzaService pizzaService)
+        public OrderService(IUnitOfWork unitOfWork, IPizzaService pizzaService)
         {
-            this.repository = repository;
-            this.pizzaService = pizzaService;
+            this._unitOfWork = unitOfWork;
+            this._pizzaService = pizzaService;
         }
 
         public bool IsOrderVegan(Order order)
@@ -21,7 +22,7 @@ namespace ppedv.CrustControl.Logic
 
             foreach (var item in order.Items.Select(x => x.FoodItem).OfType<Pizza>())
             {
-                if (pizzaService.IsVegan(item))
+                if (_pizzaService.IsVegan(item))
                     return false;
             }
             return true;

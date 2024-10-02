@@ -1,51 +1,74 @@
-﻿using ppedv.CrustControl.Model.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using ppedv.CrustControl.Model.Contracts.Data;
 using ppedv.CrustControl.Model.DomainModel;
 
 namespace ppedv.CrustControl.Data.Db
 {
-    public class EfContextRepositoryAdapter : IRepository
+    public class EfContextUnitOfWorkAdapter : IUnitOfWork
     {
-        EfContext context;
-        public EfContextRepositoryAdapter(string conString)
+        EfContext _context;
+        public EfContextUnitOfWorkAdapter(string conString)
         {
-            context = new EfContext(conString);
+            _context = new EfContext(conString);
         }
 
-        public void Add<T>(T item) where T : Entity
-        {
-            context.Set<T>().Add(item);
-        }
+        public IRepository<Pizza> PizzaRepo => new EfContextRepositoryAdapter<Pizza>(_context);
 
-        public void Delete<T>(T item) where T : Entity
-        {
-            context.Set<T>().Remove(item);
-        }
+        public IRepository<Order> OrderRepo => new EfContextRepositoryAdapter<Order>(_context);
 
-        //public IEnumerable<T> GetAll<T>() where T : Entity
-        //{
-        //    return context.Set<T>().ToList();
-        //}
-        public IQueryable<T> Query<T>() where T : Entity
-        {
-            return context.Set<T>();
-        }
+        public ICustomerRepository CustomerRepo => new EfCustomerRepository(_context);
 
-
-        public T? GetById<T>(int id) where T : Entity
-        {
-            return context.Set<T>().Find(id);
-        }
-
- 
+        public IRepository<Topping> ToppingRepo => new EfContextRepositoryAdapter<Topping>(_context);
 
         public int SaveAll()
         {
-            return context.SaveChanges();
+            return _context.SaveChanges();
+        }
+    }
+
+    public class EfCustomerRepository : EfContextRepositoryAdapter<Customer>, ICustomerRepository
+    {
+        public EfCustomerRepository(EfContext context) : base(context)
+        { }
+
+        public void KillAllCustomerBySp()
+        {
+            _context.Database.ExecuteSqlRaw("EXEC KillAllCustomers");
+        }
+    }
+
+    public class EfContextRepositoryAdapter<T> : IRepository<T> where T : Entity
+    {
+        protected readonly EfContext _context;
+
+        public EfContextRepositoryAdapter(EfContext context)
+        {
+            this._context = context;
         }
 
-        public void Update<T>(T item) where T : Entity
+        public void Add(T item)
         {
-            context.Set<T>().Update(item);
+            _context.Set<T>().Add(item);
+        }
+
+        public void Delete(T item)
+        {
+            _context.Set<T>().Remove(item);
+        }
+
+        public IQueryable<T> Query()
+        {
+            return _context.Set<T>();
+        }
+
+        public T? GetById(int id)
+        {
+            return _context.Set<T>().Find(id);
+        }
+
+        public void Update(T item)
+        {
+            _context.Set<T>().Update(item);
         }
     }
 }

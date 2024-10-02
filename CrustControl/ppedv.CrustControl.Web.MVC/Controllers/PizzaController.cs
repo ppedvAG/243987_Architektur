@@ -1,29 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ppedv.CrustControl.Model.Contracts;
+using ppedv.CrustControl.Model.Contracts.Data;
 using ppedv.CrustControl.Model.DomainModel;
 
 namespace ppedv.CrustControl.Web.MVC.Controllers
 {
     public class PizzaController : Controller
     {
-        private readonly IRepository repo;
+        private readonly IUnitOfWork _uow;
 
-        public PizzaController(IRepository repo)
+        public PizzaController(IUnitOfWork repo)
         {
-            this.repo = repo;
+            this._uow = repo;
         }
 
         // GET: PizzaController
         public ActionResult Index()
         {
-            var pizzas = repo.Query<Pizza>().ToList();
+            var pizzas = _uow.PizzaRepo.Query().ToList();
             return View(pizzas);
         }
 
         // GET: PizzaController/Details/5
         public ActionResult Details(int id)
         {
-            return View(repo.GetById<Pizza>(id));
+            return View(_uow.PizzaRepo.GetById(id));
         }
 
         // GET: PizzaController/Create
@@ -39,8 +39,8 @@ namespace ppedv.CrustControl.Web.MVC.Controllers
         {
             try
             {
-                repo.Add(pizza);
-                repo.SaveAll();
+                _uow.PizzaRepo.Add(pizza);
+                _uow.SaveAll();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -52,7 +52,7 @@ namespace ppedv.CrustControl.Web.MVC.Controllers
         // GET: PizzaController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View(repo.GetById<Pizza>(id));
+            return View(_uow.PizzaRepo.GetById(id));
         }
 
         // POST: PizzaController/Edit/5
@@ -62,8 +62,8 @@ namespace ppedv.CrustControl.Web.MVC.Controllers
         {
             try
             {
-                repo.Update(pizza);
-                repo.SaveAll();
+                _uow.PizzaRepo.Update(pizza);
+                _uow.SaveAll();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -75,7 +75,7 @@ namespace ppedv.CrustControl.Web.MVC.Controllers
         // GET: PizzaController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View(repo.GetById<Pizza>(id));
+            return View(_uow.PizzaRepo.GetById(id));
         }
 
         // POST: PizzaController/Delete/5
@@ -85,8 +85,8 @@ namespace ppedv.CrustControl.Web.MVC.Controllers
         {
             try
             {
-                repo.Delete(pizza);
-                repo.SaveAll();
+                _uow.PizzaRepo.Delete(pizza);
+                _uow.SaveAll();
                 return RedirectToAction(nameof(Index));
             }
             catch

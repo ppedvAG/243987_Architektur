@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ppedv.CrustControl.Model.Contracts;
+using ppedv.CrustControl.Model.Contracts.Data;
 using ppedv.CrustControl.Model.DomainModel;
 using ppedv.CrustControl.Web.Api.Mapper;
 using ppedv.CrustControl.Web.Api.Model;
@@ -12,19 +12,19 @@ namespace ppedv.CrustControl.Web.Api.Controllers
     [ApiController]
     public class PizzaController : ControllerBase
     {
-        private readonly IRepository repo;
+        private readonly IUnitOfWork _uow;
         private readonly PizzaMapper mapper = new PizzaMapper();
 
-        public PizzaController(IRepository repo)
+        public PizzaController(IUnitOfWork repo)
         {
-            this.repo = repo;
+            this._uow = repo;
         }
 
         // GET: api/<PizzaController>
         [HttpGet]
         public IEnumerable<PizzaDTO> Get()
         {
-            foreach (var item in repo.Query<Pizza>().ToList())
+            foreach (var item in _uow.PizzaRepo.Query().ToList())
             {
                 yield return mapper.MapToDTO(item);
             }
@@ -34,7 +34,7 @@ namespace ppedv.CrustControl.Web.Api.Controllers
         [HttpGet("{id}")]
         public ActionResult<PizzaDTO> Get(int id)
         {
-            var pizza = repo.GetById<Pizza>(id);
+            var pizza = _uow.PizzaRepo.GetById(id);
 
             if (pizza == null)
                 return NotFound();
@@ -49,8 +49,8 @@ namespace ppedv.CrustControl.Web.Api.Controllers
             ArgumentNullException.ThrowIfNull(value);
 
             var pizza = mapper.MapToEntity(value);
-            repo.Add(pizza);
-            repo.SaveAll();
+            _uow.PizzaRepo.Add(pizza);
+            _uow.SaveAll();
         }
 
         // PUT api/<PizzaController>/5
@@ -60,19 +60,19 @@ namespace ppedv.CrustControl.Web.Api.Controllers
             ArgumentNullException.ThrowIfNull(value);
 
             var pizza = mapper.MapToEntity(value);
-            repo.Update(pizza);
-            repo.SaveAll();
+            _uow.PizzaRepo.Update(pizza);
+            _uow.SaveAll();
         }
 
         // DELETE api/<PizzaController>/5
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var pizza = repo.GetById<Pizza>(id);
+            var pizza = _uow.PizzaRepo.GetById(id);
             if (pizza == null)
                 return NotFound($"Pizza wir ID {id} wurde nicht gefunden.");
-            repo.Delete(pizza);
-            repo.SaveAll();
+            _uow.PizzaRepo.Delete(pizza);
+            _uow.SaveAll();
 
             return Ok();
         }

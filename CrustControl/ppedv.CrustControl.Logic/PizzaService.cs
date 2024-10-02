@@ -1,4 +1,5 @@
-﻿using ppedv.CrustControl.Model.Contracts;
+﻿using ppedv.CrustControl.Model.Contracts.Data;
+using ppedv.CrustControl.Model.Contracts.Services;
 using ppedv.CrustControl.Model.DomainModel;
 
 
@@ -6,11 +7,11 @@ namespace ppedv.CrustControl.Logic
 {
     public class PizzaService : IPizzaService
     {
-        private readonly IRepository repository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public PizzaService(IRepository repository)
+        public PizzaService(IUnitOfWork repository)
         {
-            this.repository = repository;
+            this._unitOfWork = repository;
         }
 
         public Pizza? GetMostOrderdPizzaOfMonth(int month)
@@ -18,7 +19,7 @@ namespace ppedv.CrustControl.Logic
             ArgumentOutOfRangeException.ThrowIfGreaterThan(month, 12, nameof(month));
             ArgumentOutOfRangeException.ThrowIfLessThan(month, 1, nameof(month));
 
-            return repository.Query<Order>().Where(x => x.Date.Month == month)
+            return _unitOfWork.OrderRepo.Query().Where(x => x.Date.Month == month)
                                             .SelectMany(x => x.Items)
                                             .Select(x => x.FoodItem)
                                             .OfType<Pizza>()

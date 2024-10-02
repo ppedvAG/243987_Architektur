@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ppedv.CrustControl.Data.Db;
 using ppedv.CrustControl.Logic;
-using ppedv.CrustControl.Model.Contracts;
+using ppedv.CrustControl.Model.Contracts.Data;
 using ppedv.CrustControl.UI.Desktop.ViewModels;
 using System.Configuration;
 using System.Data;
@@ -41,7 +41,8 @@ namespace ppedv.CrustControl.UI.Desktop
             var services = new ServiceCollection();
 
             services.AddSingleton<PizzaService>();
-            services.AddTransient<IRepository>(x => new EfContextRepositoryAdapter(conString));
+            services.AddSingleton<OrderService>();
+            services.AddTransient<IUnitOfWork>(x => new EfContextUnitOfWorkAdapter(conString));
 
             services.AddTransient<PizzaViewModel>();
 
