@@ -1,10 +1,10 @@
 ﻿using ppedv.CrustControl.Model.Contracts;
 using ppedv.CrustControl.Model.DomainModel;
-using System.Xml.Linq;
+
 
 namespace ppedv.CrustControl.Logic
 {
-    public class PizzaService
+    public class PizzaService : IPizzaService
     {
         private readonly IRepository repository;
 
